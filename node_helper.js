@@ -1,7 +1,7 @@
 'use strict';
 
 /* Magic Mirror
- * Module: MMM-SnipsHideShow
+ * Module: snips-mm2-bridge
  *
  * By Max Bachmann
  * MIT Licensed.
@@ -21,7 +21,7 @@ module.exports = NodeHelper.create({
     var client = mqtt.connect(payload.mqttServer);
 
     client.on('connect', function() {
-      client.subscribe('hermes/external/MagicMirror2/#');
+      client.subscribe(payload.topic + '/#');
     });
 
     client.on('error', function(error) {
@@ -43,13 +43,20 @@ module.exports = NodeHelper.create({
     });
 
     client.on('message', function(topic, message) {
-      self.sendSocketNotification('MQTT_DATA', {'topic':topic, 'data':message.toString()});
+      const shorttopic = topic.replace(payload.topic,'');
+      self.sendSocketNotification('SnipsBridge', {'shorttopic':shorttopic, 'data':message.toString()});
     });
   },
 
+  sendMqtt: function(payload) {
+    var self = this;
+  },
+
   socketNotificationReceived: function(notification, payload) {
-    if (notification === 'MQTT_SERVER') {
+    if (notification === 'RECEIVE') {
       this.getMqtt(payload);
-    } 
+    } else if (notification === 'SEND') {
+      this.sendMqtt(payload);
+    }
   }
 });
