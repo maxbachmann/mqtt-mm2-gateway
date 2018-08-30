@@ -44,12 +44,25 @@ module.exports = NodeHelper.create({
 
     client.on('message', function(topic, message) {
       const shorttopic = topic.replace(payload.topic,'');
-      self.sendSocketNotification('SnipsBridge', {'shorttopic':shorttopic, 'data':message.toString()});
+      self.sendSocketNotification('SnipsBridge', {'shorttopic':shorttopic, 'message':message.toString()});
     });
   },
 
   sendMqtt: function(payload) {
     var self = this;
+    var client = mqtt.connect(payload.mqttServer);
+    client.on('connect', function() {
+      client.publish(payload.topic, payload.message);
+    });
+
+    client.on('offline', function() {
+      console.log('*** MQTT Client Offline ***');
+      self.sendSocketNotification('ERROR', {
+        type: 'notification',
+        title: 'MQTT Offline',
+        message: 'MQTT Server is offline.'
+      });
+    });
   },
 
   socketNotificationReceived: function(notification, payload) {
