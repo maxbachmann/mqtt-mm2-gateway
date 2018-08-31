@@ -21,7 +21,10 @@ module.exports = NodeHelper.create({
     var client = mqtt.connect(payload.mqttServer);
 
     client.on('connect', function() {
-      client.subscribe(payload.topic + '/#');
+      client.subscribe('external/#');
+      client.subscribe('hermes/dialogueManager/startSession/#');
+      client.subscribe('hermes/dialogueManager/continueSession/#');
+      client.subscribe('hermes/dialogueManager/endSession/#');
     });
 
     client.on('error', function(error) {
@@ -43,8 +46,7 @@ module.exports = NodeHelper.create({
     });
 
     client.on('message', function(topic, message) {
-      const shorttopic = topic.replace(payload.topic,'');
-      self.sendSocketNotification('SnipsBridge', {'shorttopic':shorttopic, 'message':message.toString()});
+      self.sendSocketNotification('SnipsBridge', {'topic':topic, 'message':message.toString()});
     });
   },
 

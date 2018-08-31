@@ -11,8 +11,7 @@
 Module.register('snips-mm2-bridge', {
 
   defaults: {
-    mqttServer: '',
-    topic : ''
+    mqttServer: ''
   },
 
   interval: 300,
@@ -24,7 +23,7 @@ Module.register('snips-mm2-bridge', {
   },
 
   updateMqtt: function(self) {
-    self.sendSocketNotification('RECEIVE', { mqttServer : self.config.mqttServer, topic : self.config.topic});
+    self.sendSocketNotification('RECEIVE', { mqttServer : self.config.mqttServer});
     setTimeout(self.updateMqtt, self.interval, self);
   },
 
@@ -36,7 +35,7 @@ Module.register('snips-mm2-bridge', {
 
   socketNotificationReceived: function(notification, payload) {
     if (notification === 'SnipsBridge') {
-      this.SocketNotification(notification + payload.topic, payload.data);
+      this.sendNotification(notification + '/' + payload.topic, payload.data);
     }
   }
 });
