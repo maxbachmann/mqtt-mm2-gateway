@@ -36,6 +36,8 @@ Module.register('snips-mm2-bridge', {
   socketNotificationReceived: function(notification, payload) {
     if (notification === 'SnipsBridge') {
       this.sendNotification(notification + '/' + payload.topic, payload.data);
+    }else if (notification === 'ERROR') {
+      this.sendNotification('SHOW_ALERT', payload);
     }
   }
 });
