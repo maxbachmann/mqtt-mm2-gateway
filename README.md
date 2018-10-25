@@ -3,10 +3,12 @@
 This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).  It provides provides a interface to connect the offline voice recognition snips with the Magic Mirror Software and is therefor required for all my other modules that make use of snips.
 To work this module requires the offline Voice Recognition Snips. A explanation on how to install Snips and the App is included in the installation Guide.
 
+
 ##Supported Modules
 1. [MMM-SnipsHideShow](https://gitlab.com/CaptnsTech/mmm-snipshideshow)
 
 More modules will follow soon. If you want your module to be supported just open a gitlab issue
+
 
 ## Installation
 1. Ensure that you have the necessary libraries/clients for mqtt installed on the computer that will be running this extension.  (For example, running `sudo apt-get install mosquitto mosquitto-clients` on Debian-based distributions.)
