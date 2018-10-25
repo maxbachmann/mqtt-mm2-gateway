@@ -4,7 +4,7 @@ This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMi
 To work this module requires the offline Voice Recognition Snips. A explanation on how to install Snips and the App is included in the installation Guide.
 
 
-##Supported Modules
+## Supported Modules
 1. [MMM-SnipsHideShow](https://gitlab.com/CaptnsTech/mmm-snipshideshow)
 
 More modules will follow soon. If you want your module to be supported just open a gitlab issue
