@@ -1,16 +1,19 @@
 # MMM-SnipsHideShow
 
-This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).  It provides the ability to use it with the offline voice recognition Snips to Hide, Show and Move modules
-To work this module requires the offline Voice Recognition Snips with the MagicMirrorHideShow App and is currently only avaible in German. A explanation on how to install Snips and the App is included in the installation Guide.
+This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).  It provides provides a interface to connect the offline voice recognition snips with the Magic Mirror Software and is therefor required for all my other modules that make use of snips.
+To work this module requires the offline Voice Recognition Snips. A explanation on how to install Snips and the App is included in the installation Guide.
 
+##Supported Modules
+1. [MMM-SnipsHideShow](https://gitlab.com/CaptnsTech/mmm-snipshideshow)
+
+More modules will follow soon. If you want your module to be supported just open a gitlab issue
 
 ## Installation
 1. Ensure that you have the necessary libraries/clients for mqtt installed on the computer that will be running this extension.  (For example, running `sudo apt-get install mosquitto mosquitto-clients` on Debian-based distributions.)
-2. Navigate into your MagicMirror's `modules` folder and execute `git clone https://gitlab.com/MaxBachmann/mmm-snipshideshow.git`. A new folder will appear, likely called `mmm-snipshideshow`.  Navigate into it.
+2. Navigate into your MagicMirror's `modules` folder and execute `git clone https://gitlab.com/CaptnsTech/snips-mm2-bridge.git`. A new folder will appear, likely called `snips-mm2-bridge`.  Navigate into it.
 3. Execute `npm install` to install the node dependencies.
 4. The installation of Snips can be done according to this [explanation](https://snips.gitbook.io/getting-started/installation).
-5. The installation of the App inside Snips can be done according to this [explanation](https://snips.gitbook.io/getting-started/install-an-assistant). 
-6. The app you need to add is called `MM2-HideShowMove` (more information about it can be found [here](https://gitlab.com/MaxBachmann/Snips-MagicMirror2))
+
 
 
 ## Using the module
@@ -19,7 +22,7 @@ To use this module, add this to the modules array in the `config/config.js` file
 ````javascript
 modules: [
 	{
-		module: 'MMM-SnipsHideShow',
+		module: 'snips-mm2-bridge',
 		config: {
 			// See 'Configuration options' for more information.
 		}
@@ -34,41 +37,11 @@ The following options can be configured:
 | Option  | Description  |
 |---|---|
 | `mqttServer`  | Connection string for the server to connect to (e.g. `mqtt://localhost`) **See:** Server IP  |
-| `PAGEONE`  | modules to show on the first Page **See:** Pages |
-| `PAGETWO`  | modules to show on the second Page **See:** Pages |
-| `PAGETHREE`  | modules to show on the third Page **See:** Pages |
-| `PAGEFOUR`  | modules to show on the fourth Page **See:** Pages |
-| `PAGEFIVE`  | modules to show on the fifth Page **See:** Pages |
-| `PAGESIX`  | modules to show on the Page sixth **See:** Pages |
 
 ## Server IP
 
 IP adress the mqtt server snips is connected to is running on. `mqtt://localhost` when snips is running on the same device (and you do use the MQTT Broker coming with snips)
 
-## PAGES
-
-Ah list of the modulenames of the modules that get shown on the Page. You find those modulenames in the `config.js` in the format `module : <modulename>`.
-So the command for the config is 
-```javascript
-	PAGE<pagenumber>: [<modulename 1>, ... , <modulename n>, ],
-```
-
-## moduleNames
-
-An object with the modules that you want to react on a command. The modulenames for those modules you can find in the `config.js` in the format `module : <modulename>`. Then simply change the `moduleNames object` in `MMM-SnipsHideShow.js`
-The Format is 
-```javascript
- moduleNames : {
-   "ALL"       : "ALL",
-   "PAGEONE"   : "PAGEONE",
-   "PAGETWO"   : "PAGETWO",
-   "PAGETHREE" : "PAGETHREE",
-   "PAGEFOUR"  : "PAGEFOUR",
-   "PAGEFIVE"  : "PAGEFIVE",
-   "PAGEFIVE"  : "PAGEFIVE",
-   <command>   : <moduleName of module that should react>,
-   },
-```
 
 ## Dependencies
 - [mqtt](https://www.npmjs.com/package/mqtt) (installed via `npm install`)
@@ -82,7 +55,7 @@ Please keep the following in mind:
 - **Bug Reports**:  Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented issue with a clear title.
 - **Minor Bug Fixes**: Please send a pull request with a clear explanation of the issue or a link to the issue it solves.
 - **Major Bug Fixes**: please discuss your approach in an GitLab issue before you start to alter a big part of the code.
-- **New Features**: please please discuss in a GitLab issue before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
+- **New Features**: please discuss in a GitLab issue before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 The MIT License (MIT)
 =====================

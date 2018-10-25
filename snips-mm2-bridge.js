@@ -14,7 +14,7 @@ Module.register('snips-mm2-bridge', {
     mqttServer: ''
   },
 
-  interval: 300,
+  interval: 30000,
 
   start: function() {
     Log.info('Starting module: ' + this.name);
