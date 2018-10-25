@@ -60,8 +60,9 @@ Please keep the following in mind:
 - **New Features**: please discuss in a GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 
-##Planned
+## Planned
 1. password/username and tls support for mqtt
+2. custom topics so the module works as a interface between any MQTT broker and any MM2 module
 
 
 The MIT License (MIT)
