@@ -10,7 +10,7 @@ More modules will follow soon. If you want your module to be supported just open
 
 ## Installation
 1. Ensure that you have the necessary libraries/clients for mqtt installed on the computer that will be running this extension.  (For example, running `sudo apt-get install mosquitto mosquitto-clients` on Debian-based distributions.)
-2. Navigate into your MagicMirror's `modules` folder and execute `git clone https://gitlab.com/CaptnsTech/snips-mm2-bridge.git`. A new folder will appear, likely called `snips-mm2-bridge`.  Navigate into it.
+2. Navigate into your MagicMirror's `modules` folder and execute `git clone https://gitlab.com/CaptnsTech/snips-mm2-bridge.git`. A new folder will azppear, likely called `snips-mm2-bridge`.  Navigate into it.
 3. Execute `npm install` to install the node dependencies.
 4. The installation of Snips can be done according to this [explanation](https://snips.gitbook.io/getting-started/installation).
 
@@ -52,10 +52,10 @@ Contributions of all kinds are welcome, not only in the form of code but also wi
 
 Please keep the following in mind:
 
-- **Bug Reports**:  Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented issue with a clear title.
+- **Bug Reports**:  Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) with a clear title.
 - **Minor Bug Fixes**: Please send a pull request with a clear explanation of the issue or a link to the issue it solves.
-- **Major Bug Fixes**: please discuss your approach in an GitLab issue before you start to alter a big part of the code.
-- **New Features**: please discuss in a GitLab issue before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
+- **Major Bug Fixes**: please discuss your approach in an GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code.
+- **New Features**: please discuss in a GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 The MIT License (MIT)
 =====================
