@@ -57,6 +57,11 @@ Please keep the following in mind:
 - **Major Bug Fixes**: please discuss your approach in an GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code.
 - **New Features**: please discuss in a GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
+
+##Planned
+1. password/username and tls support for mqtt
+
+
 The MIT License (MIT)
 =====================
 
