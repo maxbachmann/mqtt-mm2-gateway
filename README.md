@@ -1,4 +1,4 @@
-# MMM-SnipsHideShow
+# Snips-MM2-Bridge
 
 This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).  It provides provides a interface to connect the offline voice recognition snips with the Magic Mirror Software and is therefor required for all my other modules that make use of snips.
 To work this module requires the offline Voice Recognition Snips. A explanation on how to install Snips and the App is included in the installation Guide.
