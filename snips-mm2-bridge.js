@@ -11,7 +11,12 @@
 Module.register('snips-mm2-bridge', {
 
   defaults: {
-    mqttServer: ''
+    mqttServer: '',
+    topics: [''],
+    username: '',
+    password: '',
+    tlsKey: '',
+    selfsignedTLS: true 
   },
 
   interval: 30000,
@@ -23,12 +28,28 @@ Module.register('snips-mm2-bridge', {
   },
 
   updateMqtt: function(self) {
-    self.sendSocketNotification('RECEIVE', { mqttServer : self.config.mqttServer});
+    if (self.config.tlsKey === ''){
+
+       if (self.config.username != '' && self.config.password != ''){
+         self.sendSocketNotification('RECEIVE_PW', { mqttServer : self.config.mqttServer, 
+                    topics : self.config.topics, 
+                    username : self.config.username, 
+                    password : self.config.password});
+       }else{
+         self.sendSocketNotification('RECEIVE', { mqttServer : self.config.mqttServer, topics : self.config.topics});
+       }
+    }else{
+      self.sendSocketNotification('RECEIVE_TLS', { mqttServer : self.config.mqttServer, 
+                    topics : self.config.topics, 
+                    tlsKey : self.config.tlsKey, 
+                    selfsignedTLS : self.config.selfsignedTLS});
+    }
+    
     setTimeout(self.updateMqtt, self.interval, self);
   },
 
   NotificationReceived: function(notification, payload) {
-    if (notification === 'SNIPS_MM2_BRIDGE_SEND') {
+    if (notification === 'MQTT_MM2_INTERFACE_SEND') {
       this.sendSocketNotification('SEND', payload);
     }
   },
