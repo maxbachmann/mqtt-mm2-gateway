@@ -11,7 +11,8 @@
 Module.register('snips-mm2-bridge', {
 
   defaults: {
-    mqttServer: '',
+    host: '',
+    port: '',
     topics: [''],
     username: '',
     password: '',
@@ -27,24 +28,40 @@ Module.register('snips-mm2-bridge', {
     this.updateMqtt(this);
   },
 
-  updateMqtt: function(self) {
-    if (self.config.tlsKey === ''){
-
-       if (self.config.username != '' && self.config.password != ''){
-         self.sendSocketNotification('RECEIVE_PW', { mqttServer : self.config.mqttServer, 
-                    topics : self.config.topics, 
-                    username : self.config.username, 
-                    password : self.config.password});
-       }else{
-         self.sendSocketNotification('RECEIVE', { mqttServer : self.config.mqttServer, topics : self.config.topics});
-       }
-    }else{
-      self.sendSocketNotification('RECEIVE_TLS', { mqttServer : self.config.mqttServer, 
-                    topics : self.config.topics, 
-                    tlsKey : self.config.tlsKey, 
-                    selfsignedTLS : self.config.selfsignedTLS});
-    }
+  connectMQTT(){
+    //tls authentification
+    if (self.config.tlsKey != ''){
+      self.sendSocketNotification('RECEIVE_TLS', { 
+        host: self.config.host, 
+        port: self.config.port,
+        topics : self.config.topics, 
+        tlsKey : self.config.tlsKey, 
+        selfsignedTLS : self.config.selfsignedTLS});
     
+    // username + password authentification
+    }else if (self.config.username != '' && self.config.password != ''){
+      self.sendSocketNotification('RECEIVE_PW', { 
+        host: self.config.host, 
+        port: self.config.port, 
+        topics : self.config.topics, 
+        username : self.config.username, 
+        password : self.config.password});
+
+    //insecure authentification
+    }else{
+      self.sendSocketNotification('RECEIVE', { 
+        host: self.config.host, 
+        port: self.config.port, 
+        topics : self.config.topics
+      });
+    }
+  },
+
+
+  updateMqtt: function(self) {
+
+    connectMQTT();
+      
     setTimeout(self.updateMqtt, self.interval, self);
   },
 
@@ -56,7 +73,7 @@ Module.register('snips-mm2-bridge', {
 
   socketNotificationReceived: function(notification, payload) {
     if (notification === 'SnipsBridge') {
-      this.sendNotification('SHOW_ALERT', notification + '/' + payload.topic);
+      //this.sendNotification('SHOW_ALERT', notification + '/' + payload.topic);
       this.sendNotification(notification + '/' + payload.topic, payload.data);
     }else if (notification === 'ERROR') {
       this.sendNotification('SHOW_ALERT', payload);

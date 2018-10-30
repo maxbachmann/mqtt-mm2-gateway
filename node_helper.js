@@ -9,6 +9,7 @@
 
 const NodeHelper = require('node_helper');
 var mqtt = require('mqtt');
+const tls = require('tls');
 
 module.exports = NodeHelper.create({
   start: function() {
@@ -16,15 +17,49 @@ module.exports = NodeHelper.create({
     this.clients = [];
   },
 
-  getMqtt: function(payload) {
+  getMqtt: function(notification, payload) {
     var self = this;
-    var client = mqtt.connect(payload.mqttServer);
+    var client;
+
+    if (payload.indexOf(TLS)){
+      var options = {
+        port: payload.port || 8883,
+        host: payload.host,
+        key: KEY,
+        cert: CERT,
+        rejectUnauthorized: true,
+        // The CA list will be used to determine if server is authorized
+        ca: TRUSTED_CA_LIST,
+        protocol: 'mqtts'
+      }
+      
+      var client = mqtt.connect(options)
+    }else if (payload.indexOf(PW)){
+      var options = {
+        username: payload.username,
+        password: payload.password
+      }
+      client = mqtt.connect({
+        port: payload.port || 1883,
+        host: payload.host,
+      }, options);
+    }else{
+      client = mqtt.connect({
+        port: payload.port || 1883,
+        host: payload.host,
+      });
+    }
+    
 
     client.on('connect', function() {
-      client.subscribe('external/#');
-      client.subscribe('hermes/dialogueManager/startSession/#');
-      client.subscribe('hermes/dialogueManager/continueSession/#');
-      client.subscribe('hermes/dialogueManager/endSession/#');
+      if (payload.indexOf(SEND)){
+        client.publish(payload.topic, payload.message);
+      }else if (payload.indexOf(RECEIVE)){
+        var topics= payload.topics;
+        for (var i = 0; i < topics.length; i++) {
+          client.subscribe(topics[i]);
+        }
+      }
     });
 
     client.on('error', function(error) {
@@ -69,7 +104,7 @@ module.exports = NodeHelper.create({
 
   socketNotificationReceived: function(notification, payload) {
     if (notification === 'RECEIVE') {
-      this.getMqtt(payload);
+      this.getMqtt(notification, payload);
     } else if (notification === 'SEND') {
       this.sendMqtt(payload);
     }
