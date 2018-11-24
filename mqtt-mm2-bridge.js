@@ -30,7 +30,7 @@ Module.register("snips-mm2-bridge", {
     this.updateMqtt(this);
   },
 
-  connectMQTT: function(){
+  connectMQTT(){
     let options = {
       host: self.config.host, 
       port: self.config.port,
@@ -57,7 +57,7 @@ Module.register("snips-mm2-bridge", {
 
   updateMqtt(self) {
 
-    connectMQTT();
+    self.connectMQTT();
       
     setTimeout(self.updateMqtt, self.interval, self);
   },
