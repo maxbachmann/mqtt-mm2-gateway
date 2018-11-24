@@ -1,7 +1,7 @@
-# Snips-MM2-Bridge
-
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/abf2560c1f05419daf6d1c9835ea0ff2)](https://www.codacy.com/app/MagicMirror2/mqtt-mm2-bridge?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=maxbachmann/mqtt-mm2-bridge&amp;utm_campaign=Badge_Grade)
 
+
+# Snips-MM2-Bridge
 This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).  It provides provides a interface to connect the offline voice recognition snips with the Magic Mirror Software and is therefor required for all my other modules that make use of snips.
 To work this module requires the offline Voice Recognition Snips. A explanation on how to install Snips and the App is included in the installation Guide.
 
@@ -47,7 +47,7 @@ Contributions of all kinds are welcome, not only in the form of code but also wi
 
 Please keep the following in mind:
 
--  :  Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) with a clear title.
+-  Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) with a clear title.
 -  **Minor Bug Fixes**: Please send a pull request with a clear explanation of the issue or a link to the issue it solves.
 -  **Major Bug Fixes**: please discuss your approach in an GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code.
 -  **New Features**: please discuss in a GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
