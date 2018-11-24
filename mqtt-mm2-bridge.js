@@ -2,10 +2,9 @@
 /* global Module */
 
 /* Magic Mirror
- * Module: snips-mm2-bridge
+ * Module: mqtt-mm2-bridge
  *
  * By Max Bachmann
- * MIT Licensed.
  */
 
 Module.register("snips-mm2-bridge", {

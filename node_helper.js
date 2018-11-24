@@ -1,10 +1,9 @@
 "use strict";
 
 /* Magic Mirror
- * Module: snips-mm2-bridge
+ * Module: mqtt-mm2-bridge
  *
  * By Max Bachmann
- * MIT Licensed.
  */
 
 const NodeHelper = require("node_helper");
@@ -53,7 +52,7 @@ module.exports = NodeHelper.create({
 
     client.on("message", function(topic, message) {
       console.log("Recevied: " + message.toString());
-      self.sendSocketNotification("SnipsBridge", {topic, "message":message.toString()});
+      self.sendSocketNotification("SnipsBridge", {topic, "message": message.toString()});
     });
   },
 
