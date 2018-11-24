@@ -38,6 +38,10 @@ Module.register("snips-mm2-bridge", {
     return self.config.username !== "" && self.config.password !== "";
   },
 
+  caList() {
+    return rejectUnauthorized && self.config.ca !== "";
+  },
+
   connectMQTT(){
     let options = {
       host: self.config.host,
@@ -45,10 +49,12 @@ Module.register("snips-mm2-bridge", {
     };
     //tls authentification
     if (self.tlsActivated()){
-        options.key = self.config.key;
-        options.cert = self.config.cert;
-        options.rejectUnauthorized = self.config.rejectUnauthorized;
+      options.key = self.config.key;
+      options.cert = self.config.cert;
+      options.rejectUnauthorized = self.config.rejectUnauthorized;
+      if (self.caList()) {
         options.ca = self.config.ca;
+      }
     }
     // username + password authentification
     if (self.brokerPassword()){

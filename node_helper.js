@@ -9,6 +9,7 @@
 
 const NodeHelper = require("node_helper");
 var mqtt = require("mqtt");
+var fs = require("fs");
 
 module.exports = NodeHelper.create({
   start() {
@@ -56,9 +57,19 @@ module.exports = NodeHelper.create({
   },
 
   socketNotificationReceived(notification, payload) {
-
-    if (notification === "RECEIVE" || notification === "SEND") {
-      this.getMqtt(notification, payload);
+    
+    if ("key" in payload.options) {
+      payload.optionsq.key = fs.readFileSync(payload.options.key); 
     }
+
+    if ("cert" in payload.options) {
+      payload.options.cert = fs.readFileSync(payload.options.cert);
+    }
+
+    if ("ca" in payload.options) {
+      payload.options.ca = fs.readFileSync(payload.options.ca);
+    }
+    
+    this.getMqtt(notification, payload);
   }
 });
