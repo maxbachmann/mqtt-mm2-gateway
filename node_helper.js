@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /* Magic Mirror
  * Module: snips-mm2-bridge
@@ -7,17 +7,17 @@
  * MIT Licensed.
  */
 
-const NodeHelper = require('node_helper');
-var mqtt = require('mqtt');
-const tls = require('tls');
+const NodeHelper = require("node_helper");
+var mqtt = require("mqtt");
+const tls = require("tls");
 
 module.exports = NodeHelper.create({
   start: function() {
-    console.log('MMM-mqtt started ...');
+    console.log("MMM-mqtt started ...");
     this.clients = [];
   },
 
-  getMqtt: function(notification, payload) {
+  getMqtt(notification, payload) {
     var self = this;
     var client;
 
@@ -30,7 +30,7 @@ module.exports = NodeHelper.create({
         rejectUnauthorized: true,
         // The CA list will be used to determine if server is authorized
         ca: TRUSTED_CA_LIST,
-        protocol: 'mqtts'
+        protocol: "mqtts"
       }
       
       var client = mqtt.connect(options)
@@ -51,7 +51,7 @@ module.exports = NodeHelper.create({
     }
     
 
-    client.on('connect', function() {
+    client.on("connect", function() {
       if (payload.indexOf(SEND)){
         client.publish(payload.topic, payload.message);
       }else if (payload.indexOf(RECEIVE)){
@@ -62,50 +62,50 @@ module.exports = NodeHelper.create({
       }
     });
 
-    client.on('error', function(error) {
-      console.log('*** MQTT JS ERROR ***: ' + error);
-      self.sendSocketNotification('ERROR', {
-        type: 'notification',
-        title: 'MQTT Error',
-        message: 'The MQTT Client has generated an error: ' + error
+    client.on("error", function(error) {
+      console.log("*** MQTT JS ERROR ***: " + error);
+      self.sendSocketNotification("ERROR", {
+        type: "notification",
+        title: "MQTT Error",
+        message: "The MQTT Client has generated an error: " + error
       });
     });
 
-    client.on('offline', function() {
-      console.log('*** MQTT Client Offline ***');
-      self.sendSocketNotification('ERROR', {
-        type: 'notification',
-        title: 'MQTT Offline',
-        message: 'MQTT Server is offline.'
+    client.on("offline", function() {
+      console.log("*** MQTT Client Offline ***");
+      self.sendSocketNotification("ERROR", {
+        type: "notification",
+        title: "MQTT Offline",
+        message: "MQTT Server is offline."
       });
     });
 
-    client.on('message', function(topic, message) {
-      self.sendSocketNotification('SnipsBridge', {'topic':topic, 'message':message.toString()});
+    client.on("message", function(topic, message) {
+      self.sendSocketNotification("SnipsBridge", {"topic":topic, "message":message.toString()});
     });
   },
 
-  sendMqtt: function(payload) {
+  sendMqtt(payload) {
     var self = this;
     var client = mqtt.connect(payload.mqttServer);
-    client.on('connect', function() {
+    client.on("connect", function() {
       client.publish(payload.topic, payload.message);
     });
 
-    client.on('offline', function() {
-      console.log('*** MQTT Client Offline ***');
-      self.sendSocketNotification('ERROR', {
-        type: 'notification',
-        title: 'MQTT Offline',
-        message: 'MQTT Server is offline.'
+    client.on("offline", function() {
+      console.log("*** MQTT Client Offline ***");
+      self.sendSocketNotification("ERROR", {
+        type: "notification",
+        title: "MQTT Offline",
+        message: "MQTT Server is offline."
       });
     });
   },
 
-  socketNotificationReceived: function(notification, payload) {
-    if (notification === 'RECEIVE') {
+  socketNotificationReceived(notification, payload) {
+    if (notification === "RECEIVE") {
       this.getMqtt(notification, payload);
-    } else if (notification === 'SEND') {
+    } else if (notification === "SEND") {
       this.sendMqtt(payload);
     }
   }
