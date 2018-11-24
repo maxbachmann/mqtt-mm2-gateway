@@ -31,12 +31,27 @@ modules: [
 ## Configuration options
 The following options can be configured:
 
-| Option       | Description                                                                                  |
-|--------------|----------------------------------------------------------------------------------------------|
-| `mqttServer` | Connection string for the server to connect to (e.g. `mqtt://localhost` ) __See:__ Server IP |
+| Option               | Description                                                                                 |
+|----------------------|---------------------------------------------------------------------------------------------|
+| `host`               | IP Address or Hostname of the mqtt broker. The default value is `'localhost'`                             |
+| `port`               | Port of the mqtt broker. The default value is `1883`                                        |
+| `topics`             | Topics the Bridge should subscribe to. The default value is a empty array `[]`              |
 
-## Server IP
-IP adress the mqtt server snips is connected to is running on. `mqtt://localhost` when snips is running on the same device (and you do use the MQTT Broker coming with snips)
+username and password
+
+| `username`           | Username of the mqtt broker when using username + password. By default there is no username |
+| `password`           | Password of the mqtt broker when using username + password. By default there is no password |
+
+TLS
+
+| `key`                | Path to the Server Key file                                                                 |
+| `cert`               | Path to the Server Cert file (certificate for the key)                                      |
+| `rejectUnauthorized` | defines whether the server certificate gets verified against the list of supplied CAs.      |
+| `ca`                 | CA List that is used to determine if server is authorized. __SEE__ CA                       |
+
+
+## CA
+Optionally override the trusted CA certificates. Default is to trust the well-known CAs curated by Mozilla. Mozilla's CAs are completely replaced when CAs are explicitly specified using this option.
 
 ## Dependencies
 -  [mqtt](https://www.npmjs.com/package/mqtt) (installed via `npm install`)
