@@ -39,7 +39,7 @@ The following options can be configured:
 IP adress the mqtt server snips is connected to is running on. `mqtt://localhost` when snips is running on the same device (and you do use the MQTT Broker coming with snips)
 
 ## Dependencies
--  [  mqtt](https://www.npmjs.com/package/mqtt) (installed via `npm install`)
+-	[mqtt](https://www.npmjs.com/package/mqtt) (installed via `npm install`)
 
 ## Contributing Guidelines
 Contributions of all kinds are welcome, not only in the form of code but also with regards bug reports and documentation.
