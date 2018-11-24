@@ -9,7 +9,6 @@
 
 const NodeHelper = require("node_helper");
 var mqtt = require("mqtt");
-const tls = require("tls");
 
 module.exports = NodeHelper.create({
   start: function() {
@@ -19,45 +18,14 @@ module.exports = NodeHelper.create({
 
   getMqtt(notification, payload) {
     var self = this;
-    var client;
-
-    if (payload.indexOf(TLS)){
-      var options = {
-        port: payload.port || 8883,
-        host: payload.host,
-        key: KEY,
-        cert: CERT,
-        rejectUnauthorized: true,
-        // The CA list will be used to determine if server is authorized
-        ca: TRUSTED_CA_LIST,
-        protocol: "mqtts"
-      }
-      
-      var client = mqtt.connect(options)
-    }else if (payload.indexOf(PW)){
-      var options = {
-        username: payload.username,
-        password: payload.password
-      }
-      client = mqtt.connect({
-        port: payload.port || 1883,
-        host: payload.host,
-      }, options);
-    }else{
-      client = mqtt.connect({
-        port: payload.port || 1883,
-        host: payload.host,
-      });
-    }
-    
+    var client = mqtt.connect(payload.options);
 
     client.on("connect", function() {
-      if (payload.indexOf(SEND)){
+      if (payload.notification === "SEND"){
         client.publish(payload.topic, payload.message);
-      }else if (payload.indexOf(RECEIVE)){
-        var topics= payload.topics;
-        for (var i = 0; i < topics.length; i++) {
-          client.subscribe(topics[i]);
+      }else if (payload.notification === "SEND"){
+        for (var i = 0; i < payload.topics.length; ++i) {
+          client.subscribe(payload.topics[i]);
         }
       }
     });
@@ -85,28 +53,10 @@ module.exports = NodeHelper.create({
     });
   },
 
-  sendMqtt(payload) {
-    var self = this;
-    var client = mqtt.connect(payload.mqttServer);
-    client.on("connect", function() {
-      client.publish(payload.topic, payload.message);
-    });
-
-    client.on("offline", function() {
-      console.log("*** MQTT Client Offline ***");
-      self.sendSocketNotification("ERROR", {
-        type: "notification",
-        title: "MQTT Offline",
-        message: "MQTT Server is offline."
-      });
-    });
-  },
-
   socketNotificationReceived(notification, payload) {
-    if (notification === "RECEIVE") {
+
+    if (notification === "RECEIVE" || notification === "SEND") {
       this.getMqtt(notification, payload);
-    } else if (notification === "SEND") {
-      this.sendMqtt(payload);
     }
   }
 });

@@ -12,7 +12,7 @@ Module.register("snips-mm2-bridge", {
 
   defaults: {
     host: "",
-    port: "",
+    port: "1883",
     topics: [""],
     username: "",
     password: "",
