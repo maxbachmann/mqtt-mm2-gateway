@@ -3,10 +3,10 @@
 # Snips-MM2-Bridge
 This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).  It gives an easy option to bridge a MQTT broker and the MM2 internal notification system very easily. This way you can send MQTT messages to any module and let modules easily talk to other smart home components that support MQTT (MQTT is a quite popular protocol). 
 Other than the other MQTT modules that already exist it can:
-- publish and subscribe with an easy way to connect it with any module
-- use TLS encryption for the MQTT communication
-- use username and password for the MQTT broker
-- subscribe to as many topics as you want
+-  publish and subscribe with an easy way to connect it with any module
+-  use TLS encryption for the MQTT communication
+-  use username and password for the MQTT broker
+-  subscribe to as many topics as you want
 
 ## Supported Modules
 1.  [MMM-SnipsHideShow](https://gitlab.com/CaptnsTech/mmm-snipshideshow)
@@ -37,7 +37,6 @@ modules: [
 The following options can be configured:
 
 ### Required
-
 | Option               | Description                                                                                             |
 |----------------------|---------------------------------------------------------------------------------------------------------|
 | `host`               | IP Address or Hostname of the mqtt broker. The default value is `'localhost'`                           |
@@ -45,7 +44,6 @@ The following options can be configured:
 | `topics`             | Topics the Bridge should subscribe to. The default value is a empty array `[]`                          |
 
 ### username and password
-
 By default username and password is deactivated
 
 | Option               | Description                                                                                             |
@@ -54,7 +52,6 @@ By default username and password is deactivated
 | `password`           | Password of the mqtt broker when using username + password.                                             |
 
 ### TLS
-
 By default TLS is deactivated
 
 | Option               | Description                                                                                             |
@@ -63,7 +60,6 @@ By default TLS is deactivated
 | `cert`               | Path to the Server Cert file (certificate for the key)                                                  |
 | `rejectUnauthorized` | defines whether the server certificate gets verified against the list of supplied CAs. `rue` by default |
 | `ca`                 | CA List that is used to determine if server is authorized. __SEE__ [CA](#CA)                            |
-
 
 ## CA
 Optionally override the trusted CA certificates. Default is to trust the well-known CAs curated by Mozilla. Mozilla's CAs are completely replaced when CAs are explicitly specified using this option.
@@ -82,5 +78,5 @@ Please keep the following in mind:
 -   __New Features__: please discuss in a [issue](https://github.com/maxbachmann/mqtt-mm2-bridge/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 ## Roadmap
-- [ ] password/username and tls support for mqtt
-- [ ] custom topics so the module works as a interface between any MQTT broker and any MM2 module
+-  [ ] password/username and tls support for mqtt
+-  [ ] custom topics so the module works as a interface between any MQTT broker and any MM2 module

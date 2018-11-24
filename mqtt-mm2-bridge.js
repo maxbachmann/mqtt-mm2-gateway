@@ -38,7 +38,7 @@ Module.register("snips-mm2-bridge", {
   },
 
   caList() {
-    return rejectUnauthorized && self.config.ca !== "";
+    return self.config.rejectUnauthorized && self.config.ca !== "";
   },
 
   connectMQTT(){
