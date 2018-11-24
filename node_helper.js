@@ -22,8 +22,9 @@ module.exports = NodeHelper.create({
 
     client.on("connect", function() {
       if (payload.notification === "SEND"){
-        client.publish(payload.topic, payload.message);
-      }else if (payload.notification === "SEND"){
+        console.log("Publishing: " + JSON.stringify(payload.message));
+        client.publish(payload.topic, JSON.stringify(payload.message));
+      } else {
         for (var i = 0; i < payload.topics.length; ++i) {
           client.subscribe(payload.topics[i]);
         }
@@ -49,6 +50,7 @@ module.exports = NodeHelper.create({
     });
 
     client.on("message", function(topic, message) {
+      console.log("Recevied: " + message.toString());
       self.sendSocketNotification("SnipsBridge", {topic, "message":message.toString()});
     });
   },
