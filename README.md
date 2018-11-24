@@ -53,7 +53,7 @@ The following options can be configured:
 | `key`                | Path to the Server Key file                                                                 |
 | `cert`               | Path to the Server Cert file (certificate for the key)                                      |
 | `rejectUnauthorized` | defines whether the server certificate gets verified against the list of supplied CAs.      |
-| `ca`                 | CA List that is used to determine if server is authorized. __SEE__ CA                       |
+| `ca`                 | CA List that is used to determine if server is authorized. __SEE__ [CA](#CA)                |
 
 
 ## CA
