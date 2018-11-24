@@ -33,13 +33,13 @@ The following options can be configured:
 
 | Option       | Description                                                                                  |
 |--------------|----------------------------------------------------------------------------------------------|
-| `mqttServer` | Connection string for the server to connect to (e.g. `mqtt://localhost` ) **See:** Server IP |
+| `mqttServer` | Connection string for the server to connect to (e.g. `mqtt://localhost` ) __See:__ Server IP |
 
 ## Server IP
 IP adress the mqtt server snips is connected to is running on. `mqtt://localhost` when snips is running on the same device (and you do use the MQTT Broker coming with snips)
 
 ## Dependencies
--  [mqtt](https://www.npmjs.com/package/mqtt) (installed via `npm install`)
+-  [mqtt]  (https://www.npmjs.com/package/mqtt) (installed via `npm install`)
 
 ## Contributing Guidelines
 Contributions of all kinds are welcome, not only in the form of code but also with regards bug reports and documentation.
