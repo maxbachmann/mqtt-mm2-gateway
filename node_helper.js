@@ -27,6 +27,7 @@ module.exports = NodeHelper.create({
         client.publish(payload.topic, JSON.stringify(payload.message));
       } else {
         for (var i = 0; i < payload.topics.length; ++i) {
+          console.log("Subscribing to topics: " + payload.topics.toString());
           client.subscribe(payload.topics[i]);
         }
       }
@@ -57,7 +58,7 @@ module.exports = NodeHelper.create({
   },
 
   socketNotificationReceived(notification, payload) {
-    
+
     if ("key" in payload.options) {
       payload.optionsq.key = fs.readFileSync(payload.options.key); 
     }
