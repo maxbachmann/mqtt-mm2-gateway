@@ -39,17 +39,17 @@ The following options can be configured:
 IP adress the mqtt server snips is connected to is running on. `mqtt://localhost` when snips is running on the same device (and you do use the MQTT Broker coming with snips)
 
 ## Dependencies
--  [mqtt]  (https://www.npmjs.com/package/mqtt) (installed via `npm install`)
+-    [mqtt](https://www.npmjs.com/package/mqtt) (installed via `npm install`)
 
 ## Contributing Guidelines
 Contributions of all kinds are welcome, not only in the form of code but also with regards bug reports and documentation.
 
 Please keep the following in mind:
 
--  __Bug Reports__:  Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) with a clear title.
--  __Minor Bug Fixes__: Please send a pull request with a clear explanation of the issue or a link to the issue it solves.
--  __Major Bug Fixes__: please discuss your approach in an GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code.
--  __New Features__: please discuss in a GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
+-   __Bug Reports__: Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) with a clear title.
+-   __Minor Bug Fixes__: Please send a pull request with a clear explanation of the issue or a link to the issue it solves.
+-   __Major Bug Fixes__: please discuss your approach in an GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code.
+-   __New Features__: please discuss in a GitLab [issue](https://gitlab.com/CaptnsTech/snips-mm2-bridge/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 ## Planned
 1.  password/username and tls support for mqtt
