@@ -34,7 +34,7 @@ Module.register("snips-mm2-bridge", {
     let options = {
       host: self.config.host, 
       port: self.config.port,
-    }
+    };
     //tls authentification
     if (self.config.key !== "" 
       && self.config.cert !== ""){
@@ -49,7 +49,7 @@ Module.register("snips-mm2-bridge", {
         options.password = self.config.password;
     }
     self.sendSocketNotification("RECEIVE", { 
-      options: options,
+      options,
       topics : self.config.topics
     });
   },

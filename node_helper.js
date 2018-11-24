@@ -11,7 +11,7 @@ const NodeHelper = require("node_helper");
 var mqtt = require("mqtt");
 
 module.exports = NodeHelper.create({
-  start: function() {
+  start() {
     console.log("MMM-mqtt started ...");
     this.clients = [];
   },
@@ -49,7 +49,7 @@ module.exports = NodeHelper.create({
     });
 
     client.on("message", function(topic, message) {
-      self.sendSocketNotification("SnipsBridge", {"topic":topic, "message":message.toString()});
+      self.sendSocketNotification("SnipsBridge", {topic, "message":message.toString()});
     });
   },
 
