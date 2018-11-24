@@ -29,7 +29,7 @@ modules: [
 ## Configuration options
 The following options can be configured:
 
-| Option  | Description  |
+| Option | Description |
 |--------------------|----------------------------------------------------------------------------------------------------|
 | `mqttServer` | Connection string for the server to connect to (e.g. `mqtt://localhost`) **See:** Server IP |
 
