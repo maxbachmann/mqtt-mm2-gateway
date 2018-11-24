@@ -16,8 +16,10 @@ Module.register("snips-mm2-bridge", {
     topics: [""],
     username: "",
     password: "",
-    tlsKey: "",
-    selfsignedTLS: true 
+    key: "",
+    cert: "",
+    rejectUnauthorized: true,
+    ca: ""
   },
 
   interval: 30000,
@@ -29,32 +31,27 @@ Module.register("snips-mm2-bridge", {
   },
 
   connectMQTT(){
-    //tls authentification
-    if (self.config.tlsKey !== ""){
-      self.sendSocketNotification("RECEIVE_TLS", { 
-        host: self.config.host, 
-        port: self.config.port,
-        topics : self.config.topics, 
-        tlsKey : self.config.tlsKey, 
-        selfsignedTLS : self.config.selfsignedTLS});
-    
-    // username + password authentification
-    }else if (self.config.username !== "" && self.config.password !== ""){
-      self.sendSocketNotification("RECEIVE_PW", { 
-        host: self.config.host, 
-        port: self.config.port, 
-        topics : self.config.topics, 
-        username : self.config.username, 
-        password : self.config.password});
-
-    //insecure authentification
-    }else{
-      self.sendSocketNotification("RECEIVE", { 
-        host: self.config.host, 
-        port: self.config.port, 
-        topics : self.config.topics
-      });
+    let options = {
+      host: self.config.host, 
+      port: self.config.port,
     }
+    //tls authentification
+    if (self.config.key !== "" 
+      && self.config.cert !== ""){
+        options.key = self.config.key;
+        options.cert = self.config.cert;
+        options.rejectUnauthorized = self.config.rejectUnauthorized;
+        options.ca = self.config.ca;
+    }
+    // username + password authentification
+    if (self.config.username !== "" && self.config.password !== ""){
+        options.username = self.config.username; 
+        options.password = self.config.password;
+    }
+    self.sendSocketNotification("RECEIVE", { 
+      options: options,
+      topics : self.config.topics
+    });
   },
 
 
