@@ -36,8 +36,7 @@ Module.register("snips-mm2-bridge", {
       port: self.config.port,
     };
     //tls authentification
-    if (self.config.key !== "" 
-      && self.config.cert !== ""){
+    if (self.config.key !== "" && self.config.cert !== ""){
         options.key = self.config.key;
         options.cert = self.config.cert;
         options.rejectUnauthorized = self.config.rejectUnauthorized;
