@@ -1,26 +1,31 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/abf2560c1f05419daf6d1c9835ea0ff2)](https://www.codacy.com/app/MagicMirror2/mqtt-mm2-bridge?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=maxbachmann/mqtt-mm2-bridge&amp;utm_campaign=Badge_Grade)
 
 # Snips-MM2-Bridge
-This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).  It provides provides a interface to connect the offline voice recognition snips with the Magic Mirror Software and is therefor required for all my other modules that make use of snips.
-To work this module requires the offline Voice Recognition Snips. A explanation on how to install Snips and the App is included in the installation Guide.
+This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).  It gives an easy option to bridge a MQTT broker and the MM2 internal notification system very easily. This way you can send MQTT messages to any module and let modules easily talk to other smart home components that support MQTT (MQTT is a quite popular protocol). 
+Other than the other MQTT modules that already exist it can:
+- publish and subscribe with an easy way to connect it with any module
+- use TLS encryption for the MQTT communication
+- use username and password for the MQTT broker
+- subscribe to as many topics as you want
 
 ## Supported Modules
 1.  [MMM-SnipsHideShow](https://gitlab.com/CaptnsTech/mmm-snipshideshow)
 
-More modules will follow soon. If you want your module to be supported just open a gitlab issue
+Since the module just bridges the mqtt messages and the internal messages of MM2 it´s really easy to add the module to control any MM2 module with MQTT messages even with TLS encryption and password for the mqtt broker.
+
+Any incoming messages on topics that got subscribed (it can subscribe as many topics as you want at once). It will forward the messages using `sendNotification(notification, payload)` with the mqtt topic as notification and the message in the payload.
+To send messages just use `sendNotification("MQTT-MM2-BRIDGE-SEND", payload)`, with `payload = {topic: <topicname>, message: <mqtt_message>}`.
 
 ## Installation
-1.  Ensure that you have the necessary libraries/clients for mqtt installed on the computer that will be running this extension.  (For example, running `sudo apt-get install mosquitto mosquitto-clients` on Debian-based distributions.)
-2.  Navigate into your MagicMirror's `modules` folder and execute `git clone https://gitlab.com/CaptnsTech/snips-mm2-bridge.git`. A new folder will azppear, likely called `snips-mm2-bridge`.  Navigate into it.
-3.  Execute `npm install` to install the node dependencies.
-4.  The installation of Snips can be done according to this [explanation](https://snips.gitbook.io/getting-started/installation).
+1.  Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/maxbachmann/mqtt-mm2-bridge.git`. A new folder will appear, likely called `mqtt-mm2-bridge`.  Navigate into it.
+2.  Execute `npm install` to install the node dependencies.
 
 ## Using the module
 To use this module, add this to the modules array in the `config/config.js` file:
 ````javascript
 modules: [
 	{
-		module: 'snips-mm2-bridge',
+		module: 'mqtt-mm2-bridge',
 		config: {
 			// See 'Configuration options' for more information.
 		}
@@ -33,27 +38,27 @@ The following options can be configured:
 
 ### Required
 
-| Option               | Description                                                                                            |
-|----------------------|--------------------------------------------------------------------------------------------------------|
-| `host`               | IP Address or Hostname of the mqtt broker. The default value is `'localhost'`                          |
-| `port`               | Port of the mqtt broker. The default value is `1883`                                                   |
-| `topics`             | Topics the Bridge should subscribe to. The default value is a empty array `[]`                         |
+| Option               | Description                                                                                             |
+|----------------------|---------------------------------------------------------------------------------------------------------|
+| `host`               | IP Address or Hostname of the mqtt broker. The default value is `'localhost'`                           |
+| `port`               | Port of the mqtt broker. The default value is `1883`                                                    |
+| `topics`             | Topics the Bridge should subscribe to. The default value is a empty array `[]`                          |
 
 ### username and password
 
-| Option               | Description                                                                                            |
-|----------------------|--------------------------------------------------------------------------------------------------------|
-| `username`           | Username of the mqtt broker when using username + password. By default there is no username            |
-| `password`           | Password of the mqtt broker when using username + password. By default there is no password            |
+| Option               | Description                                                                                             |
+|----------------------|---------------------------------------------------------------------------------------------------------|
+| `username`           | Username of the mqtt broker when using username + password. By default there is no username             |
+| `password`           | Password of the mqtt broker when using username + password. By default there is no password             |
 
 ### TLS
 
-| Option               | Description                                                                                            |
-|----------------------|--------------------------------------------------------------------------------------------------------|
-| `key`                | Path to the Server Key file                                                                            |
-| `cert`               | Path to the Server Cert file (certificate for the key)                                                 |
-| `rejectUnauthorized` | defines whether the server certificate gets verified against the list of supplied CAs. True by default |
-| `ca`                 | CA List that is used to determine if server is authorized. __SEE__ [CA](#CA)                           |
+| Option               | Description                                                                                             |
+|----------------------|---------------------------------------------------------------------------------------------------------|
+| `key`                | Path to the Server Key file                                                                             |
+| `cert`               | Path to the Server Cert file (certificate for the key)                                                  |
+| `rejectUnauthorized` | defines whether the server certificate gets verified against the list of supplied CAs. `rue` by default |
+| `ca`                 | CA List that is used to determine if server is authorized. __SEE__ [CA](#CA)                            |
 
 
 ## CA
@@ -73,5 +78,5 @@ Please keep the following in mind:
 -   __New Features__: please discuss in a [issue](https://github.com/maxbachmann/mqtt-mm2-bridge/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 ## Roadmap
--  [] password/username and tls support for mqtt
--  [] custom topics so the module works as a interface between any MQTT broker and any MM2 module
+- [ ] password/username and tls support for mqtt
+- [ ] custom topics so the module works as a interface between any MQTT broker and any MM2 module

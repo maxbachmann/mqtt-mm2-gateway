@@ -75,15 +75,14 @@ Module.register("snips-mm2-bridge", {
   },
 
   NotificationReceived(notification, payload) {
-    if (notification === "MQTT_MM2_INTERFACE_SEND") {
+    if (notification === "MQTT-MM2-BRIDGE-SEND") {
       this.sendSocketNotification("SEND", payload);
     }
   },
 
   socketNotificationReceived(notification, payload) {
     if (notification === "SnipsBridge") {
-      //this.sendNotification("SHOW_ALERT", notification + "/" + payload.topic);
-      this.sendNotification(notification + "/" + payload.topic, payload.data);
+      this.sendNotification(payload.topic, payload.data);
     }else if (notification === "ERROR") {
       this.sendNotification("SHOW_ALERT", payload);
     }
