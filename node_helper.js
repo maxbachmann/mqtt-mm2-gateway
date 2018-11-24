@@ -25,9 +25,8 @@ module.exports = NodeHelper.create({
         console.log("Publishing: " + JSON.stringify(payload.message));
         client.publish(payload.topic, JSON.stringify(payload.message));
       } else {
-        const topics = payload.topics;
-        for (var i = 0; i < topics.length; ++i) {
-          client.subscribe(topics[i]);
+        for (var i = 0; i < payload.topics.length; ++i) {
+          client.subscribe(payload.topics[i]);
         }
       }
     });
