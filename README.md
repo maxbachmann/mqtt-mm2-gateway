@@ -29,9 +29,9 @@ modules: [
 ## Configuration options
 The following options can be configured:
 
-| Option | Description |
-|--------------------|----------------------------------------------------------------------------------------------------|
-| `mqttServer` | Connection string for the server to connect to (e.g. `mqtt://localhost`) **See:** Server IP |
+| Option       | Description                                                                                  |
+|--------------|----------------------------------------------------------------------------------------------|
+| `mqttServer` | Connection string for the server to connect to (e.g. `mqtt://localhost` ) **See:** Server IP |
 
 ## Server IP
 IP adress the mqtt server snips is connected to is running on. `mqtt://localhost` when snips is running on the same device (and you do use the MQTT Broker coming with snips)
