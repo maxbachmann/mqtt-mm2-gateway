@@ -46,12 +46,16 @@ The following options can be configured:
 
 ### username and password
 
+By default username and password is deactivated
+
 | Option               | Description                                                                                             |
 |----------------------|---------------------------------------------------------------------------------------------------------|
-| `username`           | Username of the mqtt broker when using username + password. By default there is no username             |
-| `password`           | Password of the mqtt broker when using username + password. By default there is no password             |
+| `username`           | Username of the mqtt broker when using username + password.                                             |
+| `password`           | Password of the mqtt broker when using username + password.                                             |
 
 ### TLS
+
+By default TLS is deactivated
 
 | Option               | Description                                                                                             |
 |----------------------|---------------------------------------------------------------------------------------------------------|
