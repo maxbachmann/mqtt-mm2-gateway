@@ -1,7 +1,7 @@
 {
-  "name": "mmm-mqtt",
+  "name": "mqtt-mm2-bridge",
   "version": "0.1.1",
-  "description": "Snips Voice Recognition for MagicMirror (commands HIDE/SHOW/MOVE",
+  "description": "Bridges the messages between a MQTT Broker and the MM2 internal notification system",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,15 +11,15 @@
     "url": "git+"
   },
   "keywords": [
-    "MagicMirror",
-    "Snips-HideShowMove"
+    "MQTT",
+    "TLS"
   ],
   "author": "Max Bachmann",
-  "license": "MIT",
+  "license": "GNU General Public License v3.0",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/maxbachmann/mqtt-mm2-bridge/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/maxbachmann/mqtt-mm2-bridge",
   "dependencies": {
     "mqtt": "^1.10.0"
   }
