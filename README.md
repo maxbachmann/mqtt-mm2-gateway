@@ -31,19 +31,25 @@ modules: [
 ## Configuration options
 The following options can be configured:
 
+### Required
+
 | Option               | Description                                                                                 |
 |----------------------|---------------------------------------------------------------------------------------------|
-| `host`               | IP Address or Hostname of the mqtt broker. The default value is `'localhost'`                             |
+| `host`               | IP Address or Hostname of the mqtt broker. The default value is `'localhost'`               |
 | `port`               | Port of the mqtt broker. The default value is `1883`                                        |
 | `topics`             | Topics the Bridge should subscribe to. The default value is a empty array `[]`              |
 
-username and password
+#### username and password
 
+| Option               | Description                                                                                 |
+|----------------------|---------------------------------------------------------------------------------------------|
 | `username`           | Username of the mqtt broker when using username + password. By default there is no username |
 | `password`           | Password of the mqtt broker when using username + password. By default there is no password |
 
-TLS
+### TLS
 
+| Option               | Description                                                                                 |
+|----------------------|---------------------------------------------------------------------------------------------|
 | `key`                | Path to the Server Key file                                                                 |
 | `cert`               | Path to the Server Cert file (certificate for the key)                                      |
 | `rejectUnauthorized` | defines whether the server certificate gets verified against the list of supplied CAs.      |
