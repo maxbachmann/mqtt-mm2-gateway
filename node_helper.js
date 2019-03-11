@@ -69,11 +69,10 @@ module.exports = NodeHelper.create({
         console.log("Publishing: " + JSON.stringify(config.message));
         client.publish(config.topic, JSON.stringify(config.message));
       } else {
-        topics = config.topics;
-        for (var i = 0; i < topics.length; ++i) {
-          console.log("Subscribing to topics: " + config.topics.toString());
-          client.subscribe(topics[i]);
-        }
+        config.topics.forEach(function(topic){
+          console.log("Subscribing to: " + topic);
+          client.subscribe(topic);
+        });
       }
     });
 
