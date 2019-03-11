@@ -3,11 +3,17 @@
 # Snips-MM2-Gateway
 This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror). It gives an easy option to connect a MQTT broker and the MM2 internal notification system. This way you can send MQTT messages to any module and let modules easily talk to other smart home components that support MQTT (MQTT is a quite popular protocol). 
 Other than the other MQTT modules that already exist it can:
--  publish and subscribe with an easy way to connect it with any module
--  forward the messages to the other modules, so they can react to the messages
--  subscribe to as many topics as you want
--  send messages to any topic from any module without extra config
--  use username and password for the MQTT broker
+
+ -  publish and subscribe with an easy way to connect it with any module
+
+ -  forward the messages to the other modules, so they can react to the messages
+
+ -  subscribe to as many topics as you want
+
+ -  send messages to any topic from any module without extra config
+
+ -  use username and password for the MQTT broker
+
 This way not every module that wants to use MQTT has to implement a MQTT client
 
 ## Supported Modules
@@ -67,4 +73,4 @@ Please keep the following in mind:
 -   __New Features__: please discuss in a [issue](https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 ## Roadmap
--  [ ] tls support for mqtt
+ -  [ ] tls support for mqtt
