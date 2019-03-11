@@ -1,23 +1,25 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/abf2560c1f05419daf6d1c9835ea0ff2)](https://www.codacy.com/app/MagicMirror2/mqtt-mm2-bridge?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=maxbachmann/mqtt-mm2-bridge&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/abf2560c1f05419daf6d1c9835ea0ff2)](https://www.codacy.com/app/MagicMirror2/mqtt-mm2-gateway?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=maxbachmann/mqtt-mm2-bridge&amp;utm_campaign=Badge_Grade)
 
-# Snips-MM2-Bridge
-This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).  It gives an easy option to bridge a MQTT broker and the MM2 internal notification system very easily. This way you can send MQTT messages to any module and let modules easily talk to other smart home components that support MQTT (MQTT is a quite popular protocol). 
+# Snips-MM2-Gateway
+This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror). It gives an easy option to connect a MQTT broker and the MM2 internal notification system. This way you can send MQTT messages to any module and let modules easily talk to other smart home components that support MQTT (MQTT is a quite popular protocol). 
 Other than the other MQTT modules that already exist it can:
 -  publish and subscribe with an easy way to connect it with any module
--  use TLS encryption for the MQTT communication
--  use username and password for the MQTT broker
+-  forward the messages to the other modules, so they can react to the messages
 -  subscribe to as many topics as you want
+-  send messages to any topic from any module without extra config
+-  use username and password for the MQTT broker
+This way not every module that wants to use MQTT has to implement a MQTT client
 
 ## Supported Modules
-1.  [MMM-SnipsHideShow](https://gitlab.com/CaptnsTech/mmm-snipshideshow)
+1.  [MMM-SnipsHideShow](https://github.com/maxbachmann-magicmirror2/MMM-SnipsHideShow)
 
-Since the module just bridges the mqtt messages and the internal messages of MM2 it´s really easy to add the module to control any MM2 module with MQTT messages even with TLS encryption and password for the mqtt broker.
+Since the module just acts as a gateway for mqtt messages the internal notifications of MM2 it´s really easy to add the module to control any MM2 module with MQTT messages even usernameand password for the mqtt broker.
 
-Any incoming messages on topics that got subscribed (it can subscribe as many topics as you want at once). It will forward the messages using `sendNotification(notification, payload)` with the mqtt topic as notification and the message in the payload.
-To send messages just use `sendNotification("MQTT-MM2-BRIDGE-SEND", payload)`, with `payload = {topic: <topicname>, message: <mqtt_message>}`.
+Any incoming messages on topics that got subscribed (it can subscribe as many topics as you want at once) will get forwarded using `sendNotification(notification, payload)` with the mqtt topic as notification and the message in the payload.
+To send messages just use `sendNotification("MQTT_SEND", payload)`, with `payload = {topic: <topicname>, message: <mqtt_message>}`.
 
 ## Installation
-1.  Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/maxbachmann/mqtt-mm2-bridge.git`. A new folder will appear, likely called `mqtt-mm2-bridge`.  Navigate into it.
+1.  Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway.git`. A new folder will appear, likely called `mqtt-mm2-gateway`.  Navigate into it.
 2.  Execute `npm install` to install the node dependencies.
 
 ## Using the module
@@ -25,7 +27,7 @@ To use this module, add this to the modules array in the `config/config.js` file
 ````javascript
 modules: [
 	{
-		module: 'mqtt-mm2-bridge',
+		module: 'mqtt-mm2-gateway',
 		config: {
 			// See 'Configuration options' for more information.
 		}
@@ -51,19 +53,6 @@ By default username and password is deactivated
 | `username`           | Username of the mqtt broker when using username + password.                                             |
 | `password`           | Password of the mqtt broker when using username + password.                                             |
 
-### TLS
-By default TLS is deactivated
-
-| Option               | Description                                                                                             |
-|----------------------|---------------------------------------------------------------------------------------------------------|
-| `key`                | Path to the Server Key file                                                                             |
-| `cert`               | Path to the Server Cert file (certificate for the key)                                                  |
-| `rejectUnauthorized` | defines whether the server certificate gets verified against the list of supplied CAs. `rue` by default |
-| `ca`                 | CA List that is used to determine if server is authorized. __SEE__ [CA](#CA)                            |
-
-## CA
-Optionally override the trusted CA certificates. Default is to trust the well-known CAs curated by Mozilla. Mozilla's CAs are completely replaced when CAs are explicitly specified using this option.
-
 ## Dependencies
 -  [mqtt](https://www.npmjs.com/package/mqtt) (installed via `npm install`)
 
@@ -72,11 +61,10 @@ Contributions of all kinds are welcome, not only in the form of code but also wi
 
 Please keep the following in mind:
 
--   __Bug Reports__: Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented [issue](https://github.com/maxbachmann/mqtt-mm2-bridge/issues) with a clear title.
+-   __Bug Reports__: Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented [issue](https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway/issues) with a clear title.
 -   __Minor Bug Fixes__: Please send a pull request with a clear explanation of the issue or a link to the issue it solves.
--   __Major Bug Fixes__: please discuss your approach in an [issue](https://github.com/maxbachmann/mqtt-mm2-bridge/issues) before you start to alter a big part of the code.
--   __New Features__: please discuss in a [issue](https://github.com/maxbachmann/mqtt-mm2-bridge/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
+-   __Major Bug Fixes__: please discuss your approach in an [issue](https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway/issues) before you start to alter a big part of the code.
+-   __New Features__: please discuss in a [issue](https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 ## Roadmap
--  [ ] password/username and tls support for mqtt
--  [ ] custom topics so the module works as a interface between any MQTT broker and any MM2 module
+-  [ ] tls support for mqtt
