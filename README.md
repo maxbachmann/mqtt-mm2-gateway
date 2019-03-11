@@ -11,7 +11,6 @@ Other than the other MQTT modules that already exist it can:
 -   subscribe to as many topics as you want
 
 -   send messages to any topic from any module without extra config
-
 -   use username and password for the MQTT broker
 
 This way not every module that wants to use MQTT has to implement a MQTT client
