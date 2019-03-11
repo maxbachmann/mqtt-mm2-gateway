@@ -55,7 +55,7 @@ Module.register("mqtt-mm2-gateway", {
    * @property {string} password - password of the MQTT broker
    */
   defaults: {
-    host: 'localhost',
+    host: "localhost",
     port: 1883,
     topics: [],
     username: "",
@@ -74,37 +74,37 @@ Module.register("mqtt-mm2-gateway", {
    */
   start() {
     Log.info("Starting module: " + this.name);
-    this.start_MQTT_client();
+    this.startMqttClient();
   },
 
   /**
-   * @function username_is_set
+   * @function usernameIsSet
    * @description check wether username is set in the config
    * @override
    *
    * @returns bool is Username set 
    */
-  username_is_set(){
+  usernameIsSet(){
     return this.config.username !== "";
   },
 
   /**
-   * @function start_MQTT_client
+   * @function startMqttClient
    * @description send the node_helper a message to start the mqtt client,
    * with the config options host, port, topics to subsribe to, username
    * and password
    * @override
    */
-  start_MQTT_client(){
-    options.host = this.config.host;
-    options.port = this.config.port;
+  startMqttClient(){
+    this.options.host = this.config.host;
+    this.options.port = this.config.port;
   
-    if (this.username_is_set()){
-        options.username = this.config.username; 
-        options.password = this.config.password;
+    if (this.usernameIsSet()){
+        this.options.username = this.config.username; 
+        this.options.password = this.config.password;
     }
     this.sendSocketNotification("MQTT_INIT", { 
-      options: options,
+      options: this.options,
       topics: this.config.topics
     });
   },
@@ -120,8 +120,8 @@ Module.register("mqtt-mm2-gateway", {
   NotificationReceived(notification, payload) {
     if (notification === "MQTT_SEND") {
       this.sendSocketNotification("SEND", {
-        options,
-        payload
+        options: this.options,
+        message: payload
       });
     }
   },
