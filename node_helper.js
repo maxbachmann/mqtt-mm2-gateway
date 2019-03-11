@@ -23,7 +23,7 @@
  * @external node_helper
  * @see https://github.com/MichMich/MagicMirror/blob/master/modules/node_modules/node_helper/index.js
  */
-const NodeHelper = require('node_helper');
+const NodeHelper = require("node_helper");
 
 /**
  * @external mqtt
@@ -69,9 +69,10 @@ module.exports = NodeHelper.create({
         console.log("Publishing: " + JSON.stringify(config.message));
         client.publish(config.topic, JSON.stringify(config.message));
       } else {
-        for (var i = 0; i < config.topics.length; ++i) {
+        topics = config.topics;
+        for (var i = 0; i < topics.length; ++i) {
           console.log("Subscribing to topics: " + config.topics.toString());
-          client.subscribe(config.topics[i]);
+          client.subscribe(topics[i]);
         }
       }
     });
