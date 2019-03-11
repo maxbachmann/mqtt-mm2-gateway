@@ -1,39 +1,84 @@
 "use strict";
-
-/* Magic Mirror
- * Module: mqtt-mm2-bridge
- *
- * By Max Bachmann
+/**
+ * @file node_helper.js
+ * @author Max Bachmann <https://github.com/maxbachmann>
+ * @version 0.1
+ * @see https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway.git
  */
 
-const NodeHelper = require("node_helper");
-var mqtt = require("mqtt");
-var fs = require("fs");
+/**
+ * @license
+ * Copyright (C) 2019 Max Bachmann
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the 
+ * Free Software Foundation, version 3. This program is distributed in the hope 
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with 
+ * this program. If not, see <https://www.gnu.org/licenses/>.
+ */
 
+/**
+ * @external node_helper
+ * @see https://github.com/MichMich/MagicMirror/blob/master/modules/node_modules/node_helper/index.js
+ */
+const NodeHelper = require('node_helper');
+
+/**
+ * @external mqtt
+ * @see https://github.com/mqttjs/MQTT.js
+ */
+var mqtt = require("mqtt");
+
+/**
+ * @module node_helper
+ * @description Backend for the module that acts as MQTT client
+ *
+ * @requires external:node_helper
+ * @requires external:mqtt
+ */
 module.exports = NodeHelper.create({
+
+  /**
+   * @function start
+   * @description Logs a start message to the console.
+   * @override
+   */
   start() {
     console.log("MMM-mqtt started ...");
     this.clients = [];
   },
 
-  getMqtt(notification, payload) {
+  /**
+   * @function getMQTT
+   * @description connect to a mqtt broker with the config parameters from the config
+   * @override
+   *
+   * @param {*} notification 
+   * @param {*} config 
+   */
+  getMQTT(notification, config) {
     var self = this;
-    var client = mqtt.connect(payload.options);
+    var client = mqtt.connect(config.options);
 
+    // send to message or subscribe to topics on connect
     client.on("connect", function() {
-      if (payload.notification === "SEND"){
-        console.log("Publishing: " + JSON.stringify(payload.message));
-        client.publish(payload.topic, JSON.stringify(payload.message));
+      console.log("Connected to the MQTT broker");
+      if (notification === "MQTT_SEND"){
+        console.log("Publishing: " + JSON.stringify(config.message));
+        client.publish(config.topic, JSON.stringify(config.message));
       } else {
-        for (var i = 0; i < payload.topics.length; ++i) {
-          console.log("Subscribing to topics: " + payload.topics.toString());
-          client.subscribe(payload.topics[i]);
+        for (var i = 0; i < config.topics.length; ++i) {
+          console.log("Subscribing to topics: " + config.topics.toString());
+          client.subscribe(config.topics[i]);
         }
       }
     });
 
+    // report error
     client.on("error", function(error) {
-      console.log("*** MQTT JS ERROR ***: " + error);
+      console.log("*** MQTT ERROR ***: " + error);
       self.sendSocketNotification("ERROR", {
         type: "notification",
         title: "MQTT Error",
@@ -41,6 +86,7 @@ module.exports = NodeHelper.create({
       });
     });
 
+    //report offline
     client.on("offline", function() {
       console.log("*** MQTT Client Offline ***");
       self.sendSocketNotification("ERROR", {
@@ -50,26 +96,22 @@ module.exports = NodeHelper.create({
       });
     });
 
+    //forward messages
     client.on("message", function(topic, message) {
-      console.log("Recevied: " + message.toString());
-      self.sendSocketNotification("SnipsBridge", {topic, "message": message.toString()});
+      console.log("Received: " + message.toString());
+      self.sendSocketNotification("MM2_SEND", {topic, "message": message.toString()});
     });
   },
 
+  /**
+   * @function socketNotificationReceived
+   * @description Handles incoming broadcasts from the module
+   * @override
+   *
+   * @param {*} notification 
+   * @param {*} payload 
+   */
   socketNotificationReceived(notification, payload) {
-
-    if ("key" in payload.options) {
-      payload.optionsq.key = fs.readFileSync(payload.options.key); 
-    }
-
-    if ("cert" in payload.options) {
-      payload.options.cert = fs.readFileSync(payload.options.cert);
-    }
-
-    if ("ca" in payload.options) {
-      payload.options.ca = fs.readFileSync(payload.options.ca);
-    }
-    
-    this.getMqtt(notification, payload);
+    this.getMQTT(notification, payload);
   }
 });
