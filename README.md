@@ -56,10 +56,10 @@ By default username and password is deactivated
 | `password`           | Password of the mqtt broker when using username + password.                                             |
 
 ## Testing whether the gateway works is quite easy
-1. set the config parameters as described in [Using the module](## Using the module)
-2. when running MagicMirror2 there will be a Notification Alert when the mqtt server can´t be reached or the authentification fails
-3. The module prints log messages into the console aswell, so you can check these for example when running MM2 with npm start or when using MM2 in servermode in the console of the browser
-4. to check wether it correctly receives the messages on the selected topics it is for example possible to manually test using mosquitto_pub (`mosquitto_pub -h <host> -p <port> -u <username> -P <password> -t <topic> -m <message>`). The message will be logged by the module aswell
+1.  set the config parameters as described in [Using the module](##using-the-module)
+2.  when running MagicMirror2 there will be a Notification Alert when the mqtt server can´t be reached or the authentification fails
+3.  The module prints log messages into the console aswell, so you can check these for example when running MM2 with npm start or when using MM2 in servermode in the console of the browser
+4.  to check wether it correctly receives the messages on the selected topics it is for example possible to manually test using mosquitto_pub (`mosquitto_pub -h <host> -p <port> -u <username> -P <password> -t <topic> -m <message>`). The message will be logged by the module aswell
 
 ## Dependencies
 -  [mqtt](https://www.npmjs.com/package/mqtt) (installed via `npm install`)
