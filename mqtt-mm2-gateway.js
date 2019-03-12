@@ -120,9 +120,12 @@ Module.register("mqtt-mm2-gateway", {
    */
   notificationReceived(notification, payload) {
     if (notification === "MQTT_SEND") {
+      Log.info(this.name + " - Received MM2 Notification");
+      Log.info(this.name + " - topic: " + payload.topic + ", message: " + payload.message);
       this.sendSocketNotification("SEND", {
         options: this.options,
-        message: payload
+        topic: payload.topic,
+        message: payload.message
       });
     }
   },
@@ -137,8 +140,11 @@ Module.register("mqtt-mm2-gateway", {
    */
   socketNotificationReceived(notification, payload) {
     if (notification === "MM2_SEND") {
-      this.sendNotification(payload.topic, payload.data);
+      Log.info(this.name + " - Received MQTT Message");
+      Log.info(this.name + " - topic: " + payload.topic + ", message: " + payload.message);
+      this.sendNotification(payload.topic, payload.message);
     }else if (notification === "ERROR") {
+      Log.info(this.name + " - " + payload.message);
       this.sendNotification("SHOW_ALERT", payload);
     }
   }
