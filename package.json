@@ -1,7 +1,7 @@
 {
   "name": "mqtt-mm2-gateway",
   "version": "0.1.1",
-  "description": "Bridges the messages between a MQTT Broker and the MM2 internal notification system",
+  "description": "Gateway for MQTT messages and the MM2 internal notification system",
   "main": "mqtt-mm2-gateway.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
