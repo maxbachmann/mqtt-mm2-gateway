@@ -58,7 +58,7 @@ By default username and password is deactivated
 ## Testing whether the gateway works is quite easy
 1.  set the config parameters as described in [Using the module](#using-the-module)
 2.  when running MagicMirror2 there will be a Notification Alert when the mqtt server can´t be reached or the authentification fails
-3.  The module prints log messages into the console aswell, so you can check these for example when running MM2 with npm start or when using MM2 in servermode in the console of the browser
+3.  The module prints log messages into the console aswell, so you can check these for example when running MM2 with npm start dev
 4.  to check wether it correctly receives the messages on the selected topics it is for example possible to manually test using mosquitto_pub (`mosquitto_pub -h <host> -p <port> -u <username> -P <password> -t <topic> -m <message>`). The message will be logged by the module aswell
 5.  the same way it´s possible to test sending mm2 notifications as mqtt messages. Just subscribe the topic using (`mosquitto_sub -h <host> -p <port> -u <username> -P <password> -t <topic>`) then send a message by sending a mm2 notification as described in [Supported Moduled](#supported-modules)
 
