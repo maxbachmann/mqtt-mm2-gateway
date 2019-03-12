@@ -75,6 +75,7 @@ Module.register("mqtt-mm2-gateway", {
   start() {
     Log.info("Starting module: " + this.name);
     this.startMqttClient();
+    this.loaded = true;
   },
 
   /**
