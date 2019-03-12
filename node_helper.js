@@ -99,7 +99,7 @@ module.exports = NodeHelper.create({
     //forward messages
     client.on("message", function(topic, message) {
       console.log("Received: " + message.toString());
-      self.sendSocketNotification("MM2_SEND", {topic, "message": message.toString()});
+      self.sendSocketNotification("MM2_SEND", {"topic": topic.toString(), "message": message.toString()});
     });
   },
 
