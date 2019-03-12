@@ -1,8 +1,8 @@
 {
-  "name": "mqtt-mm2-bridge",
+  "name": "mqtt-mm2-gateway",
   "version": "0.1.1",
   "description": "Bridges the messages between a MQTT Broker and the MM2 internal notification system",
-  "main": "index.js",
+  "main": "mqtt-mm2-gateway.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,14 +12,15 @@
   },
   "keywords": [
     "MQTT",
-    "TLS"
+    "TLS",
+    "MagicMirror2"
   ],
   "author": "Max Bachmann",
   "license": "GNU General Public License v3.0",
   "bugs": {
-    "url": "https://github.com/maxbachmann/mqtt-mm2-bridge/issues"
+    "url": "https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway/issues"
   },
-  "homepage": "https://github.com/maxbachmann/mqtt-mm2-bridge",
+  "homepage": "https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway",
   "dependencies": {
     "mqtt": "^1.10.0"
   }
