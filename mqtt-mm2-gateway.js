@@ -118,7 +118,7 @@ Module.register("mqtt-mm2-gateway", {
    * @param {string} notification - Notification name
    * @param {*} payload - Detailed payload of the notification.
    */
-  NotificationReceived(notification, payload) {
+  notificationReceived(notification, payload) {
     if (notification === "MQTT_SEND") {
       this.sendSocketNotification("SEND", {
         options: this.options,
