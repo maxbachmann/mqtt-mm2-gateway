@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway",
   "dependencies": {
-    "mqtt": "^1.10.0"
+    "mqtt": "^2.18.0"
   }
 }
