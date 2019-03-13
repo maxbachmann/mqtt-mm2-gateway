@@ -1,117 +1,100 @@
-"use strict";
-/**
- * @file node_helper.js
- * @author Max Bachmann <https://github.com/maxbachmann>
- * @version 0.1
- * @see https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway.git
- */
+var mqtt = require('mqtt');
+var NodeHelper = require("node_helper");
 
-/**
- * @license
- * Copyright (C) 2019 Max Bachmann
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the 
- * Free Software Foundation, version 3. This program is distributed in the hope 
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
- * See the GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License along with 
- * this program. If not, see <https://www.gnu.org/licenses/>.
- */
+var servers = [];
 
-/**
- * @external node_helper
- * @see https://github.com/MichMich/MagicMirror/blob/master/modules/node_modules/node_helper/index.js
- */
-const NodeHelper = require("node_helper");
-
-/**
- * @external mqtt
- * @see https://github.com/mqttjs/MQTT.js
- */
-var mqtt = require("mqtt");
-
-/**
- * @module node_helper
- * @description Backend for the module that acts as MQTT client
- *
- * @requires external:node_helper
- * @requires external:mqtt
- */
 module.exports = NodeHelper.create({
 
-  /**
-   * @function start
-   * @description Logs a start message to the console.
-   * @override
-   */
-  start() {
-    console.log("MMM-mqtt started ...");
-    this.clients = [];
-  },
+    start: function () {
+        console.log(this.name + ': Starting node helper');
+        this.loaded = false;
+    },
 
-  /**
-   * @function getMQTT
-   * @description connect to a mqtt broker with the config parameters from the config
-   * @override
-   *
-   * @param {*} notification 
-   * @param {*} config 
-   */
-  getMQTT(notification, config) {
-    var self = this;
-    var client = mqtt.connect(config.options);
+    makeServerKey: function(server){
+        return '' + server.address + ':' + (server.port | '1883' + server.user);
+    },
 
-    // send to message or subscribe to topics on connect
-    client.on("connect", function() {
-      console.log("Connected to the MQTT broker");
-      if (notification === "MQTT_SEND"){
-        console.log("Publishing: " + JSON.stringify(config.message));
-        client.publish(config.topic, JSON.stringify(config.message));
-      } else {
-        config.topics.forEach(function(topic){
-          console.log("Subscribing to: " + topic);
-          client.subscribe(topic);
+    addServer: function (server) {
+        console.log(this.name + ': Adding server: ', server);
+        var serverKey = this.makeServerKey(server);
+        var mqttServer = {}
+        var foundServer = false;
+        for (i = 0; i < servers.length; i++) {
+            if (servers[i].serverKey === serverKey) {
+                mqttServer = servers[i];
+                foundServer = true;
+            }
+        }
+        if(!foundServer) {
+            mqttServer.serverKey = serverKey;
+            mqttServer.address = server.address;
+            mqttServer.port = server.port;
+            mqttServer.options = {};
+            mqttServer.topics = [];
+            if(server.user) mqttServer.options.username = server.user;
+            if(server.password) mqttServer.options.password = server.password;
+        }
+
+        for(i = 0; i < server.subscriptions.length; i++){
+            mqttServer.topics.push(server.subscriptions[i]);
+        }
+
+        servers.push(mqttServer);
+        this.startClient(mqttServer);
+    },
+
+    addConfig: function (config) {
+        for (i = 0; i < config.mqttServers.length; i++) {
+            this.addServer(config.mqttServers[i]);
+        }
+    },
+
+    startClient: function(server) {
+
+        console.log(this.name + ': Starting client for: ', server);
+
+        var self = this;
+
+        var mqttServer = (server.address.match(/^mqtts?:\/\//) ? '' : 'mqtt://') + server.address;
+        if (server.port) {
+            mqttServer = mqttServer + ':' + server.port
+        }
+        console.log(self.name + ': Connecting to ' + mqttServer);
+
+        server.client = mqtt.connect(mqttServer, server.options);
+
+        server.client.on('error', function (err) {
+            console.log(self.name + ' ' + server.serverKey + ': Error: ' + err);
         });
-      }
-    });
 
-    // report error
-    client.on("error", function(error) {
-      console.log("*** MQTT ERROR ***: " + error);
-      self.sendSocketNotification("ERROR", {
-        type: "notification",
-        title: "MQTT Error",
-        message: "The MQTT Client has generated an error: " + error
-      });
-    });
+        server.client.on('reconnect', function (err) {
+            server.value = 'reconnecting'; // Hmmm...
+            console.log(self.name + ': ' + server.serverKey + ' reconnecting');
+        });
 
-    //report offline
-    client.on("offline", function() {
-      console.log("*** MQTT Client Offline ***");
-      self.sendSocketNotification("ERROR", {
-        type: "notification",
-        title: "MQTT Offline",
-        message: "MQTT Server is offline."
-      });
-    });
+        server.client.on('connect', function (connack) {
+            console.log(self.name + ' connected to ' + mqttServer);
+            console.log(self.name + ': subscribing to ' + server.topics);
+            server.client.subscribe(server.topics);
+        });
 
-    //forward messages
-    client.on("message", function(topic, message) {
-      console.log("Received: " + message.toString());
-      self.sendSocketNotification("MM2_SEND", {"topic": topic.toString(), "message": message.toString()});
-    });
-  },
+        server.client.on('message', function (topic, payload) {
+            self.sendSocketNotification('MQTT_PAYLOAD', {
+                serverKey: server.serverKey,
+                topic: topic.toString(),
+                message: payload.toString(),
+            });
+        });
 
-  /**
-   * @function socketNotificationReceived
-   * @description Handles incoming broadcasts from the module
-   * @override
-   *
-   * @param {*} notification 
-   * @param {*} payload 
-   */
-  socketNotificationReceived(notification, payload) {
-    this.getMQTT(notification, payload);
-  }
+    },
+
+    socketNotificationReceived: function (notification, payload) {
+        console.log(this.name + ': Socket notification received: ', notification, ': ', payload);
+        var self = this;
+        if (notification === 'MQTT_CONFIG') {
+            var config = payload;
+            self.addConfig(config);
+            self.loaded = true;
+        }
+    },
 });
