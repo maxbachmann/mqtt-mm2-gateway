@@ -23,7 +23,7 @@
  * @external node_helper
  * @see https://github.com/MichMich/MagicMirror/blob/master/modules/node_modules/node_helper/index.js
  */
-const NodeHelper = require("node_helper");
+const NodeHelper = require('node_helper');
 
 /**
  * @external mqtt
@@ -46,8 +46,68 @@ module.exports = NodeHelper.create({
    * @override
    */
   start() {
-    console.log("MMM-mqtt started ...");
+    console.log("mqtt-mm2-gateway started ...");
     this.clients = [];
+  },
+
+ /**
+   * @function connectMQTT
+   * @description connect to a mqtt broker with the config parameters from the config
+   * when it´s not already connected
+   * @override
+   *
+   * @param {*} config 
+   * @returns {*} client
+   */
+  connectMQTT: function(config) {
+    var self = this;
+    var client;
+
+    var mqttServer ="mqtts://" + config.host + ":" + config.port;
+    if(typeof self.clients[mqttServer] === "undefined") {
+      console.log("Creating new MQTT client for host: "
+        + config.host + ", port: " + config.port);
+      if ("username" in config && "password" in config)
+      {
+        console.log("Using username: "
+          + config.username + ", password: " + config.password);
+      }
+
+      client = mqtt.connect(config.options);
+      self.clients[mqttServer] = client;
+
+      // send to message or subscribe to topics on connect
+      client.on("connect", function() {
+        console.log("Connected to the MQTT broker");
+        for (var i = 0; i < config.topics.length; ++i) {
+          console.log("Subscribing to topics: " + config.topics.toString());
+          client.subscribe(config.topics[i]);
+        }
+      });
+
+      // report error
+      client.on("error", function(error) {
+        console.log("*** MQTT ERROR ***: " + error);
+        self.sendSocketNotification("ERROR", {
+          type: "notification",
+          title: "MQTT Error",
+          message: "The MQTT Client has generated an error: " + error
+        });
+      });
+
+      //report offline
+      client.on("offline", function() {
+        console.log("*** MQTT Client Offline ***");
+        self.sendSocketNotification("ERROR", {
+          type: "notification",
+          title: "MQTT Offline",
+          message: "MQTT Server is offline."
+        });
+      });
+    } else {
+      client = self.clients[mqttServer];
+    }
+    return client;
   },
 
   /**
@@ -58,48 +118,18 @@ module.exports = NodeHelper.create({
    * @param {*} notification 
    * @param {*} config 
    */
-  getMQTT(notification, config) {
+  getMQTT: function(notification, config) {
     var self = this;
-    var client = mqtt.connect(config.options);
 
-    // send to message or subscribe to topics on connect
-    client.on("connect", function() {
-      console.log("Connected to the MQTT broker");
-      if (notification === "MQTT_SEND"){
-        console.log("Publishing: " + JSON.stringify(config.message));
-        client.publish(config.topic, JSON.stringify(config.message));
-      } else {
-        config.topics.forEach(function(topic){
-          console.log("Subscribing to: " + topic);
-          client.subscribe(topic);
-        });
-      }
-    });
+    var client = self.connectMQTT(config);
+    
+    if (notification === "MQTT_SEND"){
+      console.log("Publishing: " + JSON.stringify(config.message));
+      client.publish(config.topic, JSON.stringify(config.message));
+    }
 
-    // report error
-    client.on("error", function(error) {
-      console.log("*** MQTT ERROR ***: " + error);
-      self.sendSocketNotification("ERROR", {
-        type: "notification",
-        title: "MQTT Error",
-        message: "The MQTT Client has generated an error: " + error
-      });
-    });
-
-    //report offline
-    client.on("offline", function() {
-      console.log("*** MQTT Client Offline ***");
-      self.sendSocketNotification("ERROR", {
-        type: "notification",
-        title: "MQTT Offline",
-        message: "MQTT Server is offline."
-      });
-    });
-
-    //forward messages
     client.on("message", function(topic, message) {
-      console.log("Received: " + message.toString());
-      self.sendSocketNotification("MM2_SEND", {"topic": topic.toString(), "message": message.toString()});
+      self.sendSocketNotification("MM2_SEND", {"topic":topic.toString(), "message": message.toString()});
     });
   },
 
