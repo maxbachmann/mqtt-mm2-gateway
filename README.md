@@ -1,5 +1,3 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/abf2560c1f05419daf6d1c9835ea0ff2)](https://www.codacy.com/app/MagicMirror2/mqtt-mm2-gateway?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=maxbachmann/mqtt-mm2-bridge&amp;utm_campaign=Badge_Grade)
-
 # Snips-MM2-Gateway
 This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror). It gives an easy option to connect a MQTT broker and the MM2 internal notification system. This way you can send MQTT messages to any module and let modules easily talk to other smart home components that support MQTT (MQTT is a quite popular protocol). 
 Other than the other MQTT modules that already exist it can:
@@ -69,11 +67,6 @@ By default username and password is deactivated
 Contributions of all kinds are welcome, not only in the form of code but also with regards bug reports and documentation.
 
 Please keep the following in mind:
-
--   __Bug Reports__: Make sure you're running the latest version. If the issue(s) still persist: please open a clearly documented [issue](https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway/issues) with a clear title.
--   __Minor Bug Fixes__: Please send a pull request with a clear explanation of the issue or a link to the issue it solves.
--   __Major Bug Fixes__: please discuss your approach in an [issue](https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway/issues) before you start to alter a big part of the code.
--   __New Features__: please discuss in a [issue](https://github.com/maxbachmann-magicmirror2/mqtt-mm2-gateway/issues) before you start to alter a big part of the code. Without discussion upfront, the pull request will not be accepted / merged.
 
 ## Roadmap
 -   [ ] tls support for mqtt
